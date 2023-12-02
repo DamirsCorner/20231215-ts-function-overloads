@@ -18,6 +18,11 @@ function isGame(
 }
 
 export function calculateAdjustedScore(
+  game: Game,
+  achievementName: string
+): number;
+export function calculateAdjustedScore(achievement: Achievement): number;
+export function calculateAdjustedScore(
   achievementOrGame: Achievement | Game,
   achievementName?: string
 ): number {
