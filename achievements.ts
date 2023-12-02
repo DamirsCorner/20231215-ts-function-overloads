@@ -11,21 +11,25 @@ export interface Achievement {
   unlockRatio: number;
 }
 
-export function calculateAdjustedScore(achievement: Achievement): number {
-  return achievement.points * Math.sqrt(1 / achievement.unlockRatio);
+function isGame(
+  achievementOrGame: Achievement | Game
+): achievementOrGame is Game {
+  return (achievementOrGame as Game).achievements !== undefined;
 }
 
-export function calculateAdjustedScoreForAchievementName(
-  game: Game,
-  achievementName: string
+export function calculateAdjustedScore(
+  achievementOrGame: Achievement | Game,
+  achievementName?: string
 ): number {
-  const achievement = game.achievements.find(
-    (achievement) => achievement.title === achievementName
-  );
+  const achievement = isGame(achievementOrGame)
+    ? achievementOrGame.achievements.find(
+        (achievement) => achievement.title === achievementName
+      )
+    : achievementOrGame;
 
   if (!achievement) {
     throw new Error("Achievement not found");
   }
 
-  return calculateAdjustedScore(achievement!);
+  return achievement.points * Math.sqrt(1 / achievement.unlockRatio);
 }
