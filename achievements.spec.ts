@@ -1,4 +1,8 @@
-import { Game, calculateAdjustedScore } from "./achievements";
+import {
+  Game,
+  calculateAdjustedScore,
+  calculateAdjustedScoreForAchievementName,
+} from "./achievements";
 import { describe, expect, it } from "@jest/globals";
 
 const jusant: Game = {
@@ -163,10 +167,10 @@ describe("calculateAdjustedScore", () => {
 
   it("should calculate the adjusted score of a game achievement by name", () => {
     const achievementName = "Water piper";
-    const achievement = jusant.achievements.find(
-      (achievement) => achievement.title === achievementName
+    const adjustedScore = calculateAdjustedScoreForAchievementName(
+      jusant,
+      achievementName
     );
-    const adjustedScore = calculateAdjustedScore(achievement!);
     expect(adjustedScore).toBeCloseTo(287, 0);
   });
 });
